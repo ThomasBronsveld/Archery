@@ -2,6 +2,8 @@ package nl.hva.ict.se.ads;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,7 +22,10 @@ public class ExtendedArcherTest extends ArcherTest {
         assertThrows(Exception.class, () -> {
             archers.get(4).setId(3);
         });
-        System.out.println(archers.get(0).toString());
+        System.out.println(archers.get(1).getTotalScore());
+        archers.get(1).calculateWeightedScore();
+        System.out.println(archers.get(1).getCalculatedWeight());
+//        List<Archer> test = ChampionSelector.collectionSort(archers, );
     }
 
     @Test

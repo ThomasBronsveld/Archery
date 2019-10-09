@@ -22,6 +22,8 @@ public class Archer {
     private int score;
 
     private HashMap<Integer, HashMap<Integer, Integer>> hashy = new HashMap<>();
+    private int calculatedScore;
+
     /**
      * Constructs a new instance of bowman and assigns a unique ID to the instance. The ID is not allowed to ever
      * change during the lifetime of the instance! For this you need to use the correct Java keyword.Each new instance
@@ -39,6 +41,10 @@ public class Archer {
         this.lastName = lastName.substring(0,1).toUpperCase() + lastName.substring(1).toLowerCase();
     }
 
+    public HashMap<Integer, HashMap<Integer, Integer>> getHashy() {
+        return hashy;
+    }
+
     /**
      * Registers the point for each of the three arrows that have been shot during a round. The <code>points</code>
      * parameter should hold the three points, one per arrow.
@@ -49,14 +55,37 @@ public class Archer {
     public void registerScoreForRound(int round, int[] points) {
         HashMap<Integer, Integer> inner = new HashMap<>();
         for(int i = 0; i < points.length; i++){
-            inner.put(i, points[i]);
+            inner.put(i + 1, points[i]);
             score += points[i];
         }
-        hashy.put(round, inner);
+        hashy.put(round + 1, inner);
+    }
+    
+    public void calculateWeightedScore(){
+        int count = 0;
+        System.out.println(calculatedScore);
+        for(int i = 1; i <= hashy.size(); i++){
+            for (int j = 1; j <= hashy.get(i).size(); j++){
+                if(hashy.get(i).get(j) == 0){
+                    count++;
+                    continue;
+                }
+                if(count != 0){
+                    calculatedScore += hashy.get(i).get(j) + 1 - (count * 7);
+                }
+                else{
+                    calculatedScore += hashy.get(i).get(j) + 1;
+                }
+            }
+        }
     }
 
     public int getTotalScore() {
         return score;
+    }
+    
+    public int getCalculatedWeight(){
+        return calculatedScore;
     }
 
 
