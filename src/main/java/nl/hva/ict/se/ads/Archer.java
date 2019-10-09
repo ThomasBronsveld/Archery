@@ -15,7 +15,7 @@ public class Archer {
     public static int MAX_ROUNDS = 10;
     private static Random randomizer = new Random();
     public static final int FIRST_ID = 135788;
-    private static final int MAX_POINTS= 300;
+    private static final int MAX_POINTS = 300;
     private int id; // Once assigned a value is not allowed to change.
     private String firstName;
     private String lastName;
@@ -31,14 +31,14 @@ public class Archer {
      * ID 135788;
      *
      * @param firstName the archers first name.
-     * @param lastName the archers surname.
+     * @param lastName  the archers surname.
      */
     private Archer(String firstName, String lastName) {
         this.firstName = firstName;
 
         //Make sure we keep the requested format of the first letter a capital and the rest just lowercase.
         //For Example: SCHMIDTH to Schmidth
-        this.lastName = lastName.substring(0,1).toUpperCase() + lastName.substring(1).toLowerCase();
+        this.lastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1).toLowerCase();
     }
 
     public HashMap<Integer, HashMap<Integer, Integer>> getHashy() {
@@ -49,31 +49,29 @@ public class Archer {
      * Registers the point for each of the three arrows that have been shot during a round. The <code>points</code>
      * parameter should hold the three points, one per arrow.
      *
-     * @param round the round for which to register the points.
+     * @param round  the round for which to register the points.
      * @param points the points shot during the round.
      */
     public void registerScoreForRound(int round, int[] points) {
         HashMap<Integer, Integer> inner = new HashMap<>();
-        for(int i = 0; i < points.length; i++){
+        for (int i = 0; i < points.length; i++) {
             inner.put(i + 1, points[i]);
             score += points[i];
         }
         hashy.put(round + 1, inner);
     }
-    
-    public void calculateWeightedScore(){
+
+    public void calculateWeightedScore() {
         int count = 0;
-        System.out.println(calculatedScore);
-        for(int i = 1; i <= hashy.size(); i++){
-            for (int j = 1; j <= hashy.get(i).size(); j++){
-                if(hashy.get(i).get(j) == 0){
+        for (int i = 1; i <= hashy.size(); i++) {
+            for (int j = 1; j <= hashy.get(i).size(); j++) {
+                if (hashy.get(i).get(j) == 0) {
                     count++;
                     continue;
                 }
-                if(count != 0){
+                if (count != 0) {
                     calculatedScore += hashy.get(i).get(j) + 1 - (count * 7);
-                }
-                else{
+                } else {
                     calculatedScore += hashy.get(i).get(j) + 1;
                 }
             }
@@ -83,8 +81,9 @@ public class Archer {
     public int getTotalScore() {
         return score;
     }
-    
-    public int getCalculatedWeight(){
+
+    public int getCalculatedWeight() {
+        this.calculateWeightedScore();
         return calculatedScore;
     }
 
@@ -100,9 +99,9 @@ public class Archer {
 
         for (int i = 0; i < nrOfArchers; i++) {
             Archer archer = new Archer(Names.nextFirstName(), Names.nextSurname());
-            if(archers.size() == 0){
+            if (archers.size() == 0) {
                 archer.setId(FIRST_ID);
-            } else{
+            } else {
                 archer.setId(archers.get(archers.size() - 1).getId() + 1);
             }
             letArcherShoot(archer, nrOfArchers % 100 == 0);
@@ -150,7 +149,7 @@ public class Archer {
 
 
     public void setId(int id) throws Exception {
-        if(this.id != 0){
+        if (this.id != 0) {
             //This exception is a placeholder, there isn't a real specific exception that handles invalid actions.
             throw new Exception("This value has already been set, it cannot be changed");
         }
@@ -161,7 +160,7 @@ public class Archer {
     public String toString() {
         StringBuilder archer = new StringBuilder();
 
-        archer.append(this.id).append(" (").append(this.getTotalScore()).append("/").append(this.MAX_POINTS).append( ") ").append(this.firstName).append(" ")
+        archer.append(this.id).append(" (").append(this.getTotalScore()).append("/").append(this.MAX_POINTS).append(") ").append(this.firstName).append(" ")
                 .append(this.lastName);
         return archer.toString();
     }

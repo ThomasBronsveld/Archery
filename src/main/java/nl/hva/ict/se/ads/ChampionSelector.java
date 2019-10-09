@@ -1,5 +1,6 @@
 package nl.hva.ict.se.ads;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -12,7 +13,24 @@ public class ChampionSelector {
      * This method uses either selection sort or insertion sort for sorting the archers.
      */
     public static List<Archer> selInsSort(List<Archer> archers, Comparator<Archer> scoringScheme) {
+        System.out.println(archers);
+        for(int i = 0; i < archers.size(); i++){
 
+            Archer temp = archers.get(i);
+            int newIndex = 0;
+            for(int j = i+ 1; j < archers.size(); j++){
+                if(scoringScheme.compare(temp, archers.get(j)) > 0){
+                    temp = archers.get(j);
+                    newIndex = j;
+                }
+            }
+            if(newIndex != 0){
+                archers.set(newIndex, archers.get(i));
+                archers.set(i, temp);
+            }
+        }
+
+        Collections.reverse(archers);
         return archers;
     }
 
@@ -21,6 +39,8 @@ public class ChampionSelector {
      */
     public static List<Archer> quickSort(List<Archer> archers, Comparator<Archer> scoringScheme) {
 
+        Archer pivot = archers.get(0);
+        scoringScheme.compare(pivot, archers.get(1));
         return archers;
     }
 
@@ -28,6 +48,8 @@ public class ChampionSelector {
      * This method uses the Java collections sort algorithm for sorting the archers.
      */
     public static List<Archer> collectionSort(List<Archer> archers, Comparator<Archer> scoringScheme) {
+        Collections.sort(archers, scoringScheme);
+        Collections.reverse(archers);
         return archers;
     }
 

@@ -18,14 +18,14 @@ public class ExtendedArcherTest extends ArcherTest {
      */
     @Test
     public void checkIdChange() throws Exception {
-        List<Archer> archers = Archer.generateArchers(5);
+        List<Archer> archers = Archer.generateArchers(10);
         assertThrows(Exception.class, () -> {
             archers.get(4).setId(3);
         });
-        System.out.println(archers.get(1).getTotalScore());
-        archers.get(1).calculateWeightedScore();
-        System.out.println(archers.get(1).getCalculatedWeight());
-//        List<Archer> test = ChampionSelector.collectionSort(archers, );
+        List<Archer> archers2 = archers;
+        List<Archer> archers3 = archers;
+
+//        ChampionSelector.quickSort(archers2, archers2.get(0).getTotalScore());
     }
 
     @Test
