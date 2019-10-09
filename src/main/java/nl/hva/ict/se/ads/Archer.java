@@ -15,16 +15,13 @@ public class Archer {
     public static int MAX_ROUNDS = 10;
     private static Random randomizer = new Random();
     public static final int FIRST_ID = 135788;
+    private static final int MAX_POINTS= 300;
     private int id; // Once assigned a value is not allowed to change.
+    private String firstName;
+    private String lastName;
+    private int score;
 
-    public void setId(int id) throws Exception {
-        if(this.id != 0){
-            //This exception is a placeholder, there isn't a real specific exception that handles invalid actions.
-            throw new Exception("This value has already been set, it cannot be changed");
-        }
-        this.id = id;
-    }
-
+    private HashMap<Integer, HashMap<Integer, Integer>> hashy = new HashMap<>();
     /**
      * Constructs a new instance of bowman and assigns a unique ID to the instance. The ID is not allowed to ever
      * change during the lifetime of the instance! For this you need to use the correct Java keyword.Each new instance
@@ -35,6 +32,11 @@ public class Archer {
      * @param lastName the archers surname.
      */
     private Archer(String firstName, String lastName) {
+        this.firstName = firstName;
+
+        //Make sure we keep the requested format of the first letter a capital and the rest just lowercase.
+        //For Example: SCHMIDTH to Schmidth
+        this.lastName = lastName.substring(0,1).toUpperCase() + lastName.substring(1).toLowerCase();
     }
 
     /**
@@ -45,11 +47,18 @@ public class Archer {
      * @param points the points shot during the round.
      */
     public void registerScoreForRound(int round, int[] points) {
+        HashMap<Integer, Integer> inner = new HashMap<>();
+        for(int i = 0; i < points.length; i++){
+            inner.put(i, points[i]);
+            score += points[i];
+        }
+        hashy.put(round, inner);
     }
 
     public int getTotalScore() {
-        return 0;
+        return score;
     }
+
 
     /**
      * This methods creates a List of archers.
@@ -98,6 +107,7 @@ public class Archer {
     }
 
     private static int[] shootArrows(int min) {
+
         int[] points = new int[MAX_ARROWS];
         for (int arrow = 0; arrow < MAX_ARROWS; arrow++) {
             points[arrow] = shoot(min);
@@ -107,5 +117,23 @@ public class Archer {
 
     private static int shoot(int min) {
         return Math.max(min, randomizer.nextInt(11));
+    }
+
+
+    public void setId(int id) throws Exception {
+        if(this.id != 0){
+            //This exception is a placeholder, there isn't a real specific exception that handles invalid actions.
+            throw new Exception("This value has already been set, it cannot be changed");
+        }
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder archer = new StringBuilder();
+
+        archer.append(this.id).append(" (").append(this.getTotalScore()).append("/").append(this.MAX_POINTS).append( ") ").append(this.firstName).append(" ")
+                .append(this.lastName);
+        return archer.toString();
     }
 }

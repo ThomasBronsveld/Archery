@@ -20,5 +20,11 @@ public class ExtendedArcherTest extends ArcherTest {
         assertThrows(Exception.class, () -> {
             archers.get(4).setId(3);
         });
+        System.out.println(archers.get(0).toString());
+    }
+
+    @Test
+    public void stringFormatTest(){
+
     }
 }
