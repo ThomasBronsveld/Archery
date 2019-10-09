@@ -25,19 +25,19 @@ class ChampionSelectorTest {
                         if (o1.getId() == o2.getId()) {
                             return 0;
                         } else if (o1.getId() > o2.getId()) {
-                            return -1;
-                        } else {
                             return 1;
+                        } else {
+                            return -1;
                         }
                     } else if (o1.getCalculatedWeight() > o2.getCalculatedWeight()) {
-                        return 1;
-                    } else {
                         return -1;
+                    } else {
+                        return 1;
                     }
                 } else if (o1.getTotalScore() > o2.getTotalScore()) {
-                    return 1;
-                } else //o1 < o2
                     return -1;
+                } else //o1 < o2
+                    return 1;
 //                if (o1.getTotalScore() == o2.getTotalScore()) {
 //                    if (o1.getCalculatedWeight() == o2.getCalculatedWeight()) {
 //                        if(o2.getId() > o1.getId()){
@@ -60,14 +60,14 @@ class ChampionSelectorTest {
 
     @Test
     public void selInsSortAndCollectionSortResultInSameOrder() throws Exception {
-        List<Archer> unsortedArchersForSelIns = Archer.generateArchers(23);
+        List<Archer> unsortedArchersForSelIns = Archer.generateArchers(100);
         List<Archer> unsortedArchersForCollection = new ArrayList<>(unsortedArchersForSelIns);
+        List<Archer> blah = new ArrayList<>(unsortedArchersForCollection);
 
         List<Archer> sortedArchersSelIns = ChampionSelector.selInsSort(unsortedArchersForSelIns, comparator);
         List<Archer> sortedArchersCollection = ChampionSelector.collectionSort(unsortedArchersForCollection, comparator);
+        List<Archer> test = ChampionSelector.quickSort(blah, comparator);
 
-        System.out.println(sortedArchersSelIns);
-        System.out.println(sortedArchersCollection);
         assertEquals(sortedArchersCollection, sortedArchersSelIns);
     }
 

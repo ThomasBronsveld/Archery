@@ -4,7 +4,7 @@ import java.util.*;
 
 /**
  * Holds the name, archer-id and the points scored for 30 arrows.
- *
+ * <p>
  * Archers MUST be created by using one of the generator methods. That is way the constructor is private and should stay
  * private. You are also not allowed to add any constructor with an access modifier other then private unless it is for
  * testing purposes in which case the reason why you need that constructor must be contained in a very clear manner
@@ -55,35 +55,40 @@ public class Archer {
     public void registerScoreForRound(int round, int[] points) {
         HashMap<Integer, Integer> inner = new HashMap<>();
         for (int i = 0; i < points.length; i++) {
-            inner.put(i + 1, points[i]);
+            inner.put(i, points[i]);
             score += points[i];
         }
-        hashy.put(round + 1, inner);
+        hashy.put(round, inner);
     }
 
     public void calculateWeightedScore() {
         int count = 0;
-        for (int i = 1; i <= hashy.size(); i++) {
-            for (int j = 1; j <= hashy.get(i).size(); j++) {
+        for (int i = 0; i < hashy.size(); i++) {
+            for (int j = 0; j < hashy.get(i).size(); j++) {
                 if (hashy.get(i).get(j) == 0) {
+//                    System.out.println("We GAAN ERIN HOOR!");
                     count++;
+                    if (j == 2) {
+                        break;
+                    }
                     continue;
                 }
-                if (count != 0) {
-                    calculatedScore += hashy.get(i).get(j) + 1 - (count * 7);
-                } else {
-                    calculatedScore += hashy.get(i).get(j) + 1;
-                }
+                calculatedScore += hashy.get(i).get(j) + 1;
             }
         }
+//        System.out.println("We ZIJN KLAAR MET LOOPEN!");
+//        System.out.println(calculatedScore);
+        if (count != 0) {
+            calculatedScore -= (count * 7);
+        }
     }
+
 
     public int getTotalScore() {
         return score;
     }
 
     public int getCalculatedWeight() {
-        this.calculateWeightedScore();
         return calculatedScore;
     }
 
@@ -105,6 +110,7 @@ public class Archer {
                 archer.setId(archers.get(archers.size() - 1).getId() + 1);
             }
             letArcherShoot(archer, nrOfArchers % 100 == 0);
+            archer.calculateWeightedScore();
             archers.add(archer);
         }
         return archers;
@@ -159,8 +165,7 @@ public class Archer {
     @Override
     public String toString() {
         StringBuilder archer = new StringBuilder();
-
-        archer.append(this.id).append(" (").append(this.getTotalScore()).append("/").append(this.MAX_POINTS).append(") ").append(this.firstName).append(" ")
+        archer.append(this.id).append(" (").append(this.getTotalScore()).append("/").append(this.MAX_POINTS).append(") ").append(this.calculatedScore).append(" ")
                 .append(this.lastName);
         return archer.toString();
     }
