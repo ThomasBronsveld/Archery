@@ -29,56 +29,58 @@ public class ChampionSelector {
                 archers.set(i, temp);
             }
         }
-        System.out.println("selectionsort: " + archers);
         return archers;
     }
 
-    /**
-     * This method uses quick sort for sorting the archers.
-     */
-    public static List<Archer> quickSort(List<Archer> archers, Comparator<Archer> scoringScheme) {
-
-        int index = archers.size() / 2;
-        Archer pivot = archers.get(index);
-
-//        System.out.println("index: "+ index);
-//        System.out.println("pivot: " + pivot);
-
-        int left = 0; //left pointer index
-        int right = archers.size() - 1; //right pointer index
-
-        while (left <= right) {
-            System.out.println("left " + (scoringScheme.compare(archers.get(left), pivot) > 0));
-
-            while (scoringScheme.compare(archers.get(left), pivot) > 0) { //comparator = 1
-                left++;
-            }
-
-            System.out.println("right " + (scoringScheme.compare(archers.get(left), pivot) > 0));
-            while (scoringScheme.compare(archers.get(right), pivot) < 0) { //comparator = -1
-                right--;
-            }
-
-            if (left <= right) {
-                //swap archer a en b
-                Archer temp = archers.get(left); // temp = archer a
-                archers.set(right, archers.get(left)); // zet archer right(b) naar left(a)
-                archers.set(left, temp); // zet archer a naar b
-                left++;
-                right--;
-            }
-
+    public static void quickSorter(List<Archer> archers, Comparator<Archer> scoringScheme, int low, int high) {
+        if (low >= high) {
+            return;
         }
-        System.out.println("quicksort: " + archers);
+
+        int middle = low + (high - low) / 2;
+        Archer pivot = archers.get(middle);
+
+        int i = low, j = high;
+
+        while (i <= j) {
+
+            while (scoringScheme.compare(archers.get(i), pivot) > 0) { //comparator = 1
+                i++;
+            }
+
+            while (scoringScheme.compare(archers.get(j), pivot) < 0) { //comparator = -1
+                j--;
+            }
+
+            if (i <= j) {
+                //swap archer i en j
+                Archer temp = archers.get(j); // temp = archer i
+                archers.set(j, archers.get(i)); // zet archer right(j) naar left(i)
+                archers.set(i, temp); // zet archer i naar j
+                i++;
+                j--;
+            }
+
+            if (low < j)
+                quickSorter(archers, scoringScheme, low, j);
+
+            if (high > i)
+                quickSorter(archers, scoringScheme, i, high);
+        }
+    }
+
+    public static List<Archer> quickSort(List<Archer> archers, Comparator<Archer> scoringScheme) {
+        quickSorter(archers,scoringScheme,0, archers.size() - 1);
+        Collections.reverse(archers);
         return archers;
     }
+
 
     /**
      * This method uses the Java collections sort algorithm for sorting the archers.
      */
     public static List<Archer> collectionSort(List<Archer> archers, Comparator<Archer> scoringScheme) {
         Collections.sort(archers, scoringScheme);
-        System.out.println("collectionsort: " + archers);
         return archers;
     }
 

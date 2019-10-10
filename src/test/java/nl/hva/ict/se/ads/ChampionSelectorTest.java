@@ -46,6 +46,7 @@ class ChampionSelectorTest {
         List<Archer> unsortedArchersForSelIns = Archer.generateArchers(23);
         List<Archer> unsortedArchersForCollection = new ArrayList<>(unsortedArchersForSelIns);
 
+
         List<Archer> sortedArchersSelIns = ChampionSelector.selInsSort(unsortedArchersForSelIns, comparator);
         List<Archer> sortedArchersCollection = ChampionSelector.collectionSort(unsortedArchersForCollection, comparator);
 

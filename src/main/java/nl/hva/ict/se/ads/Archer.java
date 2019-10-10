@@ -16,13 +16,13 @@ public class Archer {
     private static Random randomizer = new Random();
     public static final int FIRST_ID = 135788;
     public static final int MAX_POINTS = 300;
-    private int id; // Once assigned a value is not allowed to change.
+    private final int id; // Once assigned a value is not allowed to change.
     private String firstName;
     private String lastName;
     private int score;
 
     private HashMap<Integer, HashMap<Integer, Integer>> hashy = new HashMap<>();
-    private int calculatedScore;
+    private int calculatedScore = 0;
 
     /**
      * Constructs a new instance of bowman and assigns a unique ID to the instance. The ID is not allowed to ever
@@ -32,18 +32,16 @@ public class Archer {
      *
      * @param firstName the archers first name.
      * @param lastName  the archers surname.
+     * @param id the archer id
      */
-    private Archer(String firstName, String lastName) {
+    private Archer(String firstName, String lastName, int id) {
         this.firstName = firstName;
-
+        this.id = id;
         //Make sure we keep the requested format of the first letter a capital and the rest just lowercase.
         //For Example: SCHMIDTH to Schmidth
         this.lastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1).toLowerCase();
     }
 
-    public HashMap<Integer, HashMap<Integer, Integer>> getHashy() {
-        return hashy;
-    }
 
     /**
      * Registers the point for each of the three arrows that have been shot during a round. The <code>points</code>
@@ -66,18 +64,12 @@ public class Archer {
         for (int i = 0; i < hashy.size(); i++) {
             for (int j = 0; j < hashy.get(i).size(); j++) {
                 if (hashy.get(i).get(j) == 0) {
-//                    System.out.println("We GAAN ERIN HOOR!");
                     count++;
-                    if (j == 2) {
-                        break;
-                    }
                     continue;
                 }
                 calculatedScore += hashy.get(i).get(j) + 1;
             }
         }
-//        System.out.println("We ZIJN KLAAR MET LOOPEN!");
-//        System.out.println(calculatedScore);
         if (count != 0) {
             calculatedScore -= (count * 7);
         }
@@ -96,21 +88,26 @@ public class Archer {
         return lastName;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
     /**
      * This methods creates a List of archers.
      *
      * @param nrOfArchers the number of archers in the list.
      * @return
      */
-    public static List<Archer> generateArchers(int nrOfArchers) throws Exception {
+    public static List<Archer> generateArchers(int nrOfArchers) {
         List<Archer> archers = new ArrayList<>(nrOfArchers);
 
         for (int i = 0; i < nrOfArchers; i++) {
-            Archer archer = new Archer(Names.nextFirstName(), Names.nextSurname());
+            Archer archer;
             if (archers.size() == 0) {
-                archer.setId(FIRST_ID);
+                archer = new Archer(Names.nextFirstName(), Names.nextSurname(), FIRST_ID);
             } else {
-                archer.setId(archers.get(archers.size() - 1).getId() + 1);
+                archer = new Archer(Names.nextFirstName(), Names.nextSurname(), archers.get(archers.size() - 1).getId() + 1);
+
             }
             letArcherShoot(archer, nrOfArchers % 100 == 0);
             archer.calculateWeightedScore();
@@ -156,20 +153,36 @@ public class Archer {
         return Math.max(min, randomizer.nextInt(11));
     }
 
+    /**
+     * Undo this function to see the error message that id cannot be changed.
+     * @param id
+     */
+//    public void setId(int id)  {
+//        this.id = id;
+//    }
 
-    public void setId(int id) throws Exception {
-        if (this.id != 0) {
-            //This exception is a placeholder, there isn't a real specific exception that handles invalid actions.
-            throw new Exception("This value has already been set, it cannot be changed");
-        }
-        this.id = id;
+    /**
+     * Methods solely created for testing purposes.
+     * @param hashy
+     */
+    public void setHashy(HashMap<Integer, HashMap<Integer, Integer>> hashy) {
+        this.calculatedScore = 0;
+        this.hashy = hashy;
+    }
+
+    /**
+     * Test function
+     * @return the hashmap containing the scores per round and arrow.
+     */
+    public HashMap<Integer, HashMap<Integer, Integer>> getHashy() {
+        return hashy;
     }
 
     @Override
     public String toString() {
         StringBuilder archer = new StringBuilder();
-        archer.append(this.id).append(" (").append(this.getTotalScore()).append("/").append(this.MAX_POINTS).append(") ").append(this.calculatedScore).append(" ")
-                .append(this.lastName);
+        archer.append(this.id).append(" (").append(this.getTotalScore()).append("/").append(this.MAX_POINTS).append(") ")
+                .append(this.firstName).append(" ").append(this.lastName);
         return archer.toString();
     }
 }
