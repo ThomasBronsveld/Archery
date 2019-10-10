@@ -15,7 +15,7 @@ public class Archer {
     public static int MAX_ROUNDS = 10;
     private static Random randomizer = new Random();
     public static final int FIRST_ID = 135788;
-    private static final int MAX_POINTS = 300;
+    public static final int MAX_POINTS = 300;
     private int id; // Once assigned a value is not allowed to change.
     private String firstName;
     private String lastName;
@@ -92,6 +92,9 @@ public class Archer {
         return calculatedScore;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
 
     /**
      * This methods creates a List of archers.

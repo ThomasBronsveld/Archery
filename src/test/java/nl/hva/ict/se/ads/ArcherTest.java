@@ -12,12 +12,6 @@ public class ArcherTest {
     public void archerIdsIncreaseCorrectly() throws Exception {
         List<Archer> archers = Archer.generateArchers(3);
         assertTrue(archers.get(1).getId() == archers.get(0).getId()+ 1);
-        System.out.println(archers.get(0).getCalculatedWeight());
-        System.out.println(archers.get(0).getHashy());
-        System.out.println(archers.get(1).getCalculatedWeight());
-        System.out.println(archers.get(1).getHashy());
-        System.out.println(archers.get(2).getCalculatedWeight());
-        System.out.println(archers.get(2).getHashy());
         assertTrue(archers.get(2).getId() == archers.get(1).getId()+ 1);
     }
 
