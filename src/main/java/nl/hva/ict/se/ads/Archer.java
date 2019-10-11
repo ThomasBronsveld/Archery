@@ -22,6 +22,7 @@ public class Archer {
     private int score;
 
     private HashMap<Integer, HashMap<Integer, Integer>> hashy = new HashMap<>();
+    ArrayList<ArrayList<Integer>> listOfLists = new ArrayList<ArrayList<Integer>>();
     private int calculatedScore = 0;
 
     /**
@@ -51,23 +52,24 @@ public class Archer {
      * @param points the points shot during the round.
      */
     public void registerScoreForRound(int round, int[] points) {
-        HashMap<Integer, Integer> inner = new HashMap<>();
+//        HashMap<Integer, Integer> inner = new HashMap<>();
+        ArrayList<Integer> singleList = new ArrayList<Integer>();
         for (int i = 0; i < points.length; i++) {
-            inner.put(i, points[i]);
+            singleList.add(points[i]);
             score += points[i];
         }
-        hashy.put(round, inner);
+        listOfLists.add(singleList);
     }
 
     public void calculateWeightedScore() {
         int count = 0;
-        for (int i = 0; i < hashy.size(); i++) {
-            for (int j = 0; j < hashy.get(i).size(); j++) {
-                if (hashy.get(i).get(j) == 0) {
+        for (int i = 0; i < listOfLists.size(); i++) {
+            for (int j = 0; j < listOfLists.get(i).size(); j++) {
+                if (listOfLists.get(i).get(j) == 0) {
                     count++;
                     continue;
                 }
-                calculatedScore += hashy.get(i).get(j) + 1;
+                calculatedScore += listOfLists.get(i).get(j) + 1;
             }
         }
         if (count != 0) {
@@ -161,13 +163,14 @@ public class Archer {
 //        this.id = id;
 //    }
 
-    /**
-     * Methods solely created for testing purposes.
-     * @param hashy
-     */
-    public void setHashy(HashMap<Integer, HashMap<Integer, Integer>> hashy) {
+
+    public ArrayList<ArrayList<Integer>> getlistOfLists() {
+        return listOfLists;
+    }
+
+    public void setlistOfLists(ArrayList<ArrayList<Integer>> listOfLists) {
         this.calculatedScore = 0;
-        this.hashy = hashy;
+        this.listOfLists = listOfLists;
     }
 
     /**

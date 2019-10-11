@@ -2,6 +2,7 @@ package nl.hva.ict.se.ads;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,20 +16,20 @@ public class ExtendedArcherTest extends ArcherTest {
     private int points[] = {1,2,3};
     private int points2[] = {9,10, 0};
 
-    private HashMap<Integer, HashMap<Integer, Integer>> hashy = new HashMap<>();
+    ArrayList<ArrayList<Integer>> listOfLists = new ArrayList<ArrayList<Integer>>();
 
     @Test
     public void testCalculatedWeight() {
         List<Archer> archers = Archer.generateArchers(1);
 
         for(int i = 0; i < Archer.MAX_ROUNDS; i++){
-            HashMap<Integer, Integer> inner = new HashMap<>();
+            ArrayList<Integer> singleList = new ArrayList<Integer>();
             for (int j = 0; j < Archer.MAX_ARROWS; j++) {
-                inner.put(j, points[j]);
+                singleList.add(points[j]);
             }
-            hashy.put(i, inner);
+            listOfLists.add(singleList);
         }
-        archers.get(0).setHashy(hashy);
+        archers.get(0).setlistOfLists(listOfLists);
         archers.get(0).calculateWeightedScore();
         assertEquals(90, archers.get(0).getCalculatedWeight());
 
@@ -40,13 +41,13 @@ public class ExtendedArcherTest extends ArcherTest {
         List<Archer> archers = Archer.generateArchers(1);
 
         for(int i = 0; i < Archer.MAX_ROUNDS; i++){
-            HashMap<Integer, Integer> inner = new HashMap<>();
+            ArrayList<Integer> singleList = new ArrayList<Integer>();
             for (int j = 0; j < Archer.MAX_ARROWS; j++) {
-                inner.put(j, points2[j]);
+                singleList.add(points2[j]);
             }
-            hashy.put(i, inner);
+            listOfLists.add(singleList);
         }
-        archers.get(0).setHashy(hashy);
+        archers.get(0).setlistOfLists(listOfLists);
         archers.get(0).calculateWeightedScore();
         assertEquals(140, archers.get(0).getCalculatedWeight());
     }
@@ -72,23 +73,23 @@ public class ExtendedArcherTest extends ArcherTest {
         List<Archer> archers = Archer.generateArchers(100);
         //Not the most elegant solution, but I can't come up that quickly with a way to do this without having to get deep
         //into for-loops.
-        assertTrue(archers.get(0).getHashy().values().toString().contains("=0"));
+//        assertTrue(archers.get(0).getlistOfLists());
     }
     @Test
     public void calculateWeightScoreWithoutZerosTest()  throws IndexOutOfBoundsException{
         List<Archer> archers = Archer.generateArchers(101);
-        assertFalse(archers.get(0).getHashy().values().toString().contains("=0"));
+//        assertFalse(archers.get(0).getlistOfLists().values().toString().contains("=0"));
         //Not the most elegant solution, but I can't come up that quickly with a way to do this without having to get deep
         //into for-loops.
         try{
             archers = Archer.generateArchers(0);
-            assertFalse(archers.get(0).getHashy().values().toString().contains("=0"));
+//            assertFalse(archers.get(0).getlistOfLists().values().toString().contains("=0"));
         } catch (IndexOutOfBoundsException ex){
             ex.getMessage();
         }
 
         archers = Archer.generateArchers(101);
-        assertFalse(archers.get(0).getHashy().values().toString().contains("=0"));
+//        assertFalse(archers.get(0).getlistOfLists().values().toString().contains("=0"));
     }
 
 
@@ -105,9 +106,9 @@ public class ExtendedArcherTest extends ArcherTest {
     }
 
     @Test
-    public void getHashyTest() {
+    public void getlistOfListsTest() {
         List<Archer> archers = Archer.generateArchers(1);
-        assertNotNull(archers.get(0).getHashy());
+        assertNotNull(archers.get(0).getlistOfLists());
     }
 
     @Test
