@@ -68,28 +68,23 @@ public class ExtendedArcherTest extends ArcherTest {
 //       ChampionSelector.quickSort(archers2, archers2.get(0).getTotalScore());
 //    }
 
-    @Test
-    public void calculateWeightScoreWithZerosTest()  {
-        List<Archer> archers = Archer.generateArchers(100);
-        //Not the most elegant solution, but I can't come up that quickly with a way to do this without having to get deep
-        //into for-loops.
-//        assertTrue(archers.get(0).getlistOfLists());
-    }
+
     @Test
     public void calculateWeightScoreWithoutZerosTest()  throws IndexOutOfBoundsException{
         List<Archer> archers = Archer.generateArchers(101);
-//        assertFalse(archers.get(0).getlistOfLists().values().toString().contains("=0"));
+        System.out.println(archers.get(0).getlistOfLists().toString());
+        assertFalse(archers.get(0).getlistOfLists().toString().matches("0"));
         //Not the most elegant solution, but I can't come up that quickly with a way to do this without having to get deep
         //into for-loops.
         try{
             archers = Archer.generateArchers(0);
-//            assertFalse(archers.get(0).getlistOfLists().values().toString().contains("=0"));
+            assertFalse(archers.get(0).getlistOfLists().toString().matches("0"));
         } catch (IndexOutOfBoundsException ex){
             ex.getMessage();
         }
 
         archers = Archer.generateArchers(101);
-//        assertFalse(archers.get(0).getlistOfLists().values().toString().contains("=0"));
+        assertFalse(archers.get(0).getlistOfLists().toString().matches("0"));
     }
 
 

@@ -36,8 +36,8 @@ public class ChampionSelector {
         Archer pivot = archers.get(high);
         int i = (low - 1); // index of smaller element
         for (int j = low; j < high; j++) {
-            // If current element is smaller than the pivot
-            if (scoringScheme.compare(archers.get(j), pivot) > 0) {
+            // If current element is greater than the pivot
+            if (scoringScheme.compare(archers.get(j), pivot) < 0) {
                 i++;
 
                 // swap arr[i] and arr[j]
@@ -70,7 +70,6 @@ public class ChampionSelector {
 
     public static List<Archer> quickSort(List<Archer> archers, Comparator<Archer> scoringScheme) {
         quickSorter(archers, scoringScheme, 0, archers.size() - 1);
-        Collections.reverse(archers);
         return archers;
     }
 
