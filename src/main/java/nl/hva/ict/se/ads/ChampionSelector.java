@@ -7,7 +7,7 @@ import java.util.*;
  */
 public class ChampionSelector {
     /**
-     * This method uses either selection sort or insertion sort for sorting the archers.
+     * This method uses election sort for sorting the archers.
      */
     public static List<Archer> selInsSort(List<Archer> archers, Comparator<Archer> scoringScheme) {
         for (int i = 0; i < archers.size(); i++) {
@@ -29,76 +29,47 @@ public class ChampionSelector {
         return archers;
     }
 
-    public static Archer medianOfThree(List<Archer> archers, Comparator<Archer> scoringScheme, int low, int high) {
-        System.out.println("//now in medianof3//");
-        int mid = (high) / 2;
+    /**
+     * This method uses quick sort for sorting the archers.
+     */
+    public static int partition(List<Archer> archers, Comparator<Archer> scoringScheme, int low, int high) {
+        Archer pivot = archers.get(high);
+        int i = (low - 1); // index of smaller element
+        for (int j = low; j < high; j++) {
+            // If current element is smaller than the pivot
+            if (scoringScheme.compare(archers.get(j), pivot) > 0) {
+                i++;
 
-        List<Archer> unsortedPivotList = new ArrayList<>() {
-            {
-                add(archers.get(low));
-                add(archers.get(mid));
-                add(archers.get(high));
+                // swap arr[i] and arr[j]
+                Archer temp = archers.get(i);
+                archers.set(i, archers.get(j));
+                archers.set(j, temp);
             }
-        };
-        unsortedPivotList.sort(scoringScheme);
-        Archer optimalPivot = unsortedPivotList.get(1);
-        System.out.println("pivot list: " + unsortedPivotList);
-        System.out.println("optimal pivot: " + optimalPivot);
-
-
-        // swap with the last to serve as pivot
-
-        Archer tempP = archers.get(high);
-        archers.set(high, optimalPivot);
-        if (optimalPivot == archers.get(low)) {
-            archers.set(low, tempP);
-        } else if (optimalPivot == archers.get(mid)) {
-            archers.set(mid, tempP);
         }
-        return optimalPivot;
+
+        // swap arr[i+1] and arr[high] (or pivot)
+        Archer temp = archers.get(i + 1);
+        archers.set(i + 1, pivot);
+        archers.set(high, temp);
+
+        return i + 1;
     }
 
-    public static void quickSorter(List<Archer> archers, Comparator<Archer> scoringScheme, int low, int high, Archer pivot) {
-        if (low >= high) {
-            return;
-        }
+    public static void quickSorter(List<Archer> archers, Comparator<Archer> scoringScheme, int low, int high) {
+        if (low < high) {
+            /* pi is partitioning index, arr[pi] is
+              now at right place */
+            int pi = partition(archers, scoringScheme, low, high);
 
-
-        int i = low, j = high;
-        //System.out.println("current pivot: " + pivot);
-        while (i <= j) {
-
-            while (scoringScheme.compare(archers.get(i), pivot) > 0) { //comparator = 1
-                i++;
-            }
-
-            while (scoringScheme.compare(archers.get(j), pivot) < 0) { //comparator = -1
-                j--;
-            }
-
-            if (i <= j) {
-                //swap archer i en j
-                Archer temp = archers.get(j); // temp = archer i
-                archers.set(j, archers.get(i)); // zet archer right(j) naar left(i)
-                archers.set(i, temp); // zet archer i naar j
-                i++;
-                j--;
-            }
-
-            int middle = low + (high - low) / 2;
-            Archer pivotNext = archers.get(middle);
-            //System.out.println("next pivot: " + pivotNext);
-            if (low < j)
-                quickSorter(archers, scoringScheme, low, j, pivotNext);
-
-            if (high > i)
-                quickSorter(archers, scoringScheme, i, high, pivotNext);
+            // Recursively sort elements before
+            // partition and after partition
+            quickSorter(archers, scoringScheme, low, pi - 1);
+            quickSorter(archers, scoringScheme, pi + 1, high);
         }
     }
 
     public static List<Archer> quickSort(List<Archer> archers, Comparator<Archer> scoringScheme) {
-        Archer pivot = medianOfThree(archers, scoringScheme, 0, archers.size() - 1);
-        quickSorter(archers, scoringScheme, 0, archers.size() - 1, pivot);
+        quickSorter(archers, scoringScheme, 0, archers.size() - 1);
         Collections.reverse(archers);
         return archers;
     }

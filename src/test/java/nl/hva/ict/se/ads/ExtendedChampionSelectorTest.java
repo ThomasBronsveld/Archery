@@ -23,28 +23,30 @@ public class ExtendedChampionSelectorTest extends ChampionSelectorTest {
     }
 
     @Test
-    public void insertionSortBenchmark() {
-        int i = 6400;
+    public void sortBenchmark() {
+        int i = 500000;
         List<Archer> unsortedArchersForQuickSort = Archer.generateArchers(i);
         List<Archer> unsortedArchersForCollection = new ArrayList<>(unsortedArchersForQuickSort);
-        List<Archer> unsortedArchersForSelection = new ArrayList<>(unsortedArchersForCollection);
+//        List<Archer> unsortedArchersForSelection = new ArrayList<>(unsortedArchersForCollection);
 
-        System.out.println("=========SelectionSort=======");
-        long startSelection = System.currentTimeMillis();
-        List<Archer> SelectionSort = ChampionSelector.selInsSort(unsortedArchersForSelection, comparator);
-        System.out.println(i + " archers " + (System.currentTimeMillis() - startSelection) + "ms");
-        //System.out.println(SelectionSort);
+//        System.out.println("=========SelectionSort=======");
+//        long startSelection = System.currentTimeMillis();
+//        List<Archer> SelectionSort = ChampionSelector.selInsSort(unsortedArchersForSelection, comparator);
+//        System.out.println(i + " archers " + (System.currentTimeMillis() - startSelection) + "ms");
+//        //System.out.println(SelectionSort);
 
         System.out.println("=========QuickSort=======");
         long startQuick = System.currentTimeMillis();
         List<Archer> QuickSort = ChampionSelector.quickSort(unsortedArchersForQuickSort, comparator);
         System.out.println(i + " archers " + (System.currentTimeMillis() - startQuick) + "ms");
-        //System.out.println(QuickSort);
+//        System.out.println(QuickSort);
 
         System.out.println("=========CollectionSort=======");
         long startCollection = System.currentTimeMillis();
         List<Archer> CollectionSort = ChampionSelector.collectionSort(unsortedArchersForCollection, comparator);
         System.out.println(i + " archers " + (System.currentTimeMillis() - startCollection) + "ms");
-        //System.out.println(CollectionSort);
+//        System.out.println(CollectionSort);
+
+        assertEquals(CollectionSort, QuickSort);
     }
 }
