@@ -177,14 +177,11 @@ public class Archer {
      * Test function
      * @return the hashmap containing the scores per round and arrow.
      */
-    public HashMap<Integer, HashMap<Integer, Integer>> getHashy() {
-        return hashy;
-    }
 
     @Override
     public String toString() {
         StringBuilder archer = new StringBuilder();
-        archer.append(this.id).append(" (").append(this.getTotalScore()).append("/").append(this.MAX_POINTS).append(") ")
+        archer.append(this.id).append(" (").append(this.getTotalScore()).append(" / ").append(this.MAX_POINTS).append(") ")
                 .append(this.firstName).append(" ").append(this.lastName);
         return archer.toString();
     }

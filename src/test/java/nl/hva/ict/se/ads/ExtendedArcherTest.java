@@ -32,9 +32,8 @@ public class ExtendedArcherTest extends ArcherTest {
         archers.get(0).setlistOfLists(listOfLists);
         archers.get(0).calculateWeightedScore();
         assertEquals(90, archers.get(0).getCalculatedWeight());
-
-
     }
+
     @Test
     public void testCalculatedWeightWithZeros() {
 
@@ -112,10 +111,10 @@ public class ExtendedArcherTest extends ArcherTest {
 
         String expected = archers.get(0).getId()
                 + " (" + archers.get(0).getTotalScore()
-                + "/" + Archer.MAX_POINTS
+                + " / " + Archer.MAX_POINTS
                 + ") " + archers.get(0).getFirstName() + " "
                 + archers.get(0).getLastName();
-
+        System.out.println(archers.get(0).toString());
         assertEquals(expected, archers.get(0).toString());
     }
 }
